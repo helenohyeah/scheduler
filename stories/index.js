@@ -10,6 +10,7 @@ import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
 import InterviewerListItem from "components/InterviewerListItem";
 import InterviewerList from "components/InterviewerList";
+import Appointment from "components/Appointment/index";
 
 // Button Stories
 
@@ -31,11 +32,6 @@ storiesOf("Button", module)
 
 // DayListItem Stories
 
-const day = {
-  name: "Tuesday",
-  spots: 5
-}
-
 storiesOf("DayListItem", module) //Initiates Storybook and registers our DayListItem component
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
@@ -44,7 +40,7 @@ storiesOf("DayListItem", module) //Initiates Storybook and registers our DayList
   .add("Selected", () => <DayListItem name="Monday" spots={5} selected />) 
   .add("Full", () => <DayListItem name="Monday" spots={0} />)
   .add("Clickable", () => (
-    <DayListItem name={day.name} setDay={() => action("setDay")(day.name)} spots={day.spots} /> // action() allows us to create a callback that appears in the actions panel when clicked
+    <DayListItem name="Tuesday" setDay={action("setDay")} spots={5} /> // action() allows us to create a callback that appears in the actions panel when clicked
   ));
 
 // DayList Stories
@@ -110,7 +106,7 @@ storiesOf("InterviewerListItem", module)
       id={interviewer.id}
       name={interviewer.name}
       avatar={interviewer.avatar}
-      setInterviewer={() => action("setInterviewer")(interviewer.id)}
+      setInterviewer={action("setInterviewer")}
     />
   ));
 
@@ -141,3 +137,16 @@ storiesOf("InterviewerList", module)
       setInterviewer={action("setInterviewer")}
     />
   ));
+
+// Appointment Stories
+
+storiesOf("Appointment", module)
+  .addParameters({
+    backgrounds: [{ name: "white", value: "#fff", default: true }]
+  })
+  .add("Appointment", () => <Appointment />)
+  .add("Appointment with Time", () => (
+    <Appointment
+      time="12pm"
+    />
+  ))
