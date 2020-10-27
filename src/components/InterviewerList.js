@@ -10,7 +10,7 @@ export default function InterviewerList(props) {
         id={item.id}
         name={item.name}
         avatar={item.avatar}
-        setInterviewer={props.setInterviewer}
+        setInterviewer={() => props.setInterviewer(item.id)}
         selected={props.interviewer === item.id}
       />
     );
