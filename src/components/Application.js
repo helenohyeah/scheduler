@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 
-import "components/Application.scss";
+// Components
+
 import DayList from "./DayList";
+import Header from "./Appointment/Header";
+import Show from "./Appointment/Show";
+import Empty from "./Appointment/Empty";
+
+// Styling
+
+import "components/Application.scss";
 
 export default function Application(props) {
   const days = [
@@ -22,7 +30,6 @@ export default function Application(props) {
     },
   ];
   const [day, setDay] = useState("Monday");
-  const [interviewer, setInterviewer] = useState("");
 
   return (
     <main className="layout">
