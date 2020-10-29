@@ -67,8 +67,8 @@ export default function Application(props) {
     days: [],
     appointments: {}
   });
-  const setDay = day => setState({ ...state, day });
-  const setDays = days => setState({ ...state, days }); 
+  const setDay = day => setState(prev => ({ ...prev, day }));
+  const setDays = days => setState(prev => ({ ...prev, days })); 
   // const [day, setDay] = useState("Monday");
   // const [days, setDays] = useState([]);
   // const [appointments, setAppointments] = useState({});
