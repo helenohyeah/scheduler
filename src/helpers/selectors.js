@@ -22,7 +22,7 @@ const getAppointmentsForDay = (state, day) => {
 
 // Returns an object containing the interview containing the interviewer data
 const getInterview = (state, interview) => {
-  const interviewers = { ... state.interviewers };
+  const interviewers = { ...state.interviewers };
 
   // If no interview, return null
   if (!interview) return null;
@@ -31,7 +31,7 @@ const getInterview = (state, interview) => {
   const interviewerId = interview.interviewer;
   for (const interviewer in interviewers) {
     if (interviewers[interviewer]["id"] === interviewerId) {
-      return { ... interview, interviewer: interviewers[interviewer] };
+      return { ...interview, interviewer: interviewers[interviewer] };
     }
   }
   

@@ -10,7 +10,6 @@ import Appointment from "./Appointment";
 // Styling
 
 import "components/Application.scss";
-import InterviewerList from "./InterviewerList";
 
 export default function Application(props) {
 
