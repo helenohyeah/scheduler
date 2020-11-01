@@ -70,7 +70,7 @@ export default function Application(props) {
           // console.log('appointment:', appointment)
           // const interview = { student: '', interviewer: '' }
           const interview = getInterview(state, appointment.interview)
-          console.log('interview', interview)
+          // console.log('interview', interview)
           return (
           <Appointment
             key={appointment.id}
