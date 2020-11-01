@@ -26,7 +26,6 @@ export default function Application(props) {
 
   // Setting States
   const setDay = day => setState(prev => ({ ...prev, day }));
-  // const setDays = days => setState(prev => ({ ...prev, days })); 
 
   // Get Data
   useEffect(() => {
@@ -41,8 +40,6 @@ export default function Application(props) {
 
   return (
     <main className="layout">
-      {console.log('state>>', state)}
-      {console.log('daily', dailyAppointments)}
       <section className="sidebar">
         
         <img
