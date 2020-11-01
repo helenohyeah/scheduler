@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { getAppointmentsForDay } from "../helpers/selectors";
 
 // Components
 
@@ -9,33 +10,39 @@ import Appointment from "./Appointment";
 // Styling
 
 import "components/Application.scss";
+import InterviewerList from "./InterviewerList";
 
 export default function Application(props) {
 
-  // States
+  // Declare States
   const [state, setState] = useState({
     day: "Monday",
     days: [],
     appointments: {}
   });
   
-  const dailyAppointments= [];
+  // const dailyAppointments = [];
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
 
-  // Setting states
+  // Setting States
   const setDay = day => setState(prev => ({ ...prev, day }));
-  const setDays = days => setState(prev => ({ ...prev, days })); 
+  // const setDays = days => setState(prev => ({ ...prev, days })); 
 
-  // Get data
+  // Get Data
   useEffect(() => {
-    axios.get("http://localhost:8001/api/days")
-      .then(res => {
-        // setDays(res.data);
-        setDays(res.data);
-      })
+    Promise.all([
+      axios.get("http://localhost:8001/api/days"),
+      axios.get("http://localhost:8001/api/appointments"),
+      // axios.get("http://localhost:8001/api/interviewers")
+    ]).then(data => {
+        setState(prev => ({...prev, days: data[0].data, appointments: data[1].data}));
+    }).catch(err => console.log(err))
   }, []);
 
   return (
     <main className="layout">
+      {console.log('state>>', state)}
+      {console.log('daily', dailyAppointments)}
       <section className="sidebar">
         
         <img
