@@ -4,21 +4,21 @@ export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
   const [history, setHistory] = useState([initial]);
   
-  const transition = (mode) => {
-    setHistory([...history, mode]);
+  const transition = (mode, replace = false) => {
     setMode(mode);
+    if (replace) {
+      history.pop();
+    }
+    setHistory([...history, mode]);
   }
   
   const back = () => {
-    // Prevent navigating back from initial mode
-    if (history.length <= 1) {
-      setMode(initial);
-      return;
+    // Navigate back only if we navgated from initial
+    if (history.length > 1) {
+      history.pop();
+      setHistory(history);
+      setMode(history[history.length-1]);
     }
-    
-    const prevMode = history[history.length-2];
-    setHistory(history.splice(0, history.length-1));
-    setMode(prevMode);
   }
   
   return { mode, transition, back }
