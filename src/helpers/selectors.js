@@ -1,4 +1,4 @@
-export function getAppointmentsForDay(state, day) {
+const getAppointmentsForDay = (state, day) => {
   // Make a copy of state data
   const days = [...state.days];
   const appointments = {...state.appointments};
@@ -18,4 +18,25 @@ export function getAppointmentsForDay(state, day) {
   }
 
   return results;
-};
+}
+
+// Returns an object containing the interview containing the interviewer data
+const getInterview = (state, interview) => {
+  const interviewers = { ... state.interviewers };
+
+  // If no interview, return null
+  if (!interview) return null;
+
+  // Loop through interviewers and return when the id matches the interviewerId from the given interview
+  const interviewerId = interview.interviewer;
+  for (const interviewer in interviewers) {
+    if (interviewers[interviewer]["id"] === interviewerId) {
+      return { ... interview, interviewer: interviewers[interviewer] };
+    }
+  }
+  
+  // If no match was found, return null
+  return null;
+}
+
+export { getAppointmentsForDay, getInterview };

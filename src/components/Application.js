@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { getAppointmentsForDay } from "../helpers/selectors";
+import { getAppointmentsForDay, getInterview } from "../helpers/selectors";
 
 // Components
 
@@ -18,11 +18,13 @@ export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: {}
   });
   
   // const dailyAppointments = [];
-  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const dailyAppointments =  getAppointmentsForDay(state, state.day);
+  
 
   // Setting States
   const setDay = day => setState(prev => ({ ...prev, day }));
@@ -32,16 +34,17 @@ export default function Application(props) {
     Promise.all([
       axios.get("http://localhost:8001/api/days"),
       axios.get("http://localhost:8001/api/appointments"),
-      // axios.get("http://localhost:8001/api/interviewers")
+      axios.get("http://localhost:8001/api/interviewers")
     ]).then(data => {
-        setState(prev => ({...prev, days: data[0].data, appointments: data[1].data}));
+        setState(prev => ({...prev, days: data[0].data, appointments: data[1].data, interviewers: data[2].data}));
     }).catch(err => console.log(err))
   }, []);
 
   return (
     <main className="layout">
+    {/* {console.log('state:', state)} */}
+    {/* {console.log('daily appointments:', dailyAppointments)} */}
       <section className="sidebar">
-        
         <img
           className="sidebar--centered"
           src="images/logo.png"
@@ -60,14 +63,21 @@ export default function Application(props) {
           src="images/lhl.png"
           alt="Lighthouse Labs"
         />
-        
       </section>
+
       <section className="schedule">
         {dailyAppointments.map(appointment => {
-          return <Appointment
+          // console.log('appointment:', appointment)
+          // const interview = { student: '', interviewer: '' }
+          const interview = getInterview(state, appointment.interview)
+          console.log('interview', interview)
+          return (
+          <Appointment
             key={appointment.id}
-            {...appointment}
-          />
+            id={appointment.id}
+            time={appointment.time}
+            interview={interview}
+          />)
         })}
         <Appointment key="last" time="5pm" />
       </section>
