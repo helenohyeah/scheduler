@@ -10,55 +10,6 @@ import Appointment from "./Appointment";
 
 import "components/Application.scss";
 
-// Test Data
-
-const appointments = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  {
-    id: 3,
-    time: "2pm",
-    interview: {
-      student: "Patricia Melville",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgr.com/LpaY82x.png"
-      }
-    }
-  },
-  {
-    id: 4,
-    time: "3pm"
-  },
-  {
-    id: 5,
-    time: "4pm",
-    interview: {
-      student: "Josh Friedman",
-      interviewer: {
-        id: 2,
-        name: "Sven Jones",
-        avatar: "https://i.imgur.com/twYrpay.jpg"
-      }
-    }
-  }
-];
-
 export default function Application(props) {
 
   // States
@@ -67,11 +18,12 @@ export default function Application(props) {
     days: [],
     appointments: {}
   });
+  
+  const dailyAppointments= [];
+
+  // Setting states
   const setDay = day => setState(prev => ({ ...prev, day }));
   const setDays = days => setState(prev => ({ ...prev, days })); 
-  // const [day, setDay] = useState("Monday");
-  // const [days, setDays] = useState([]);
-  // const [appointments, setAppointments] = useState({});
 
   // Get data
   useEffect(() => {
@@ -94,9 +46,6 @@ export default function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            // days={days}
-            // day={day}
-            // setDay={setDay}
             day={state.day}
             days={state.days}
             setDay={setDay}
@@ -110,7 +59,7 @@ export default function Application(props) {
         
       </section>
       <section className="schedule">
-        {appointments.map(appointment => {
+        {dailyAppointments.map(appointment => {
           return <Appointment
             key={appointment.id}
             {...appointment}
