@@ -5,12 +5,14 @@ import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
 import Form from "./Form";
+import Status from "./Status";
 
 import "./styles.scss";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
+const SAVING = "SAVING";
 
 export default function Appointment(props) {
    // DECLARE MODE HANDLER AND SET INITIAL MODE
@@ -24,9 +26,10 @@ export default function Appointment(props) {
         student: name,
         interviewer
       };
-      props.bookInterview(props.id, interview);
-      // TRANSITION TO SHOW MODE
-      transition(SHOW);
+      transition(SAVING);
+      props.bookInterview(props.id, interview, transition)
+      // .then(() => transition(SHOW))
+         // TRANSITION TO SHOW MODE
    }
 
    return (
@@ -50,6 +53,11 @@ export default function Appointment(props) {
                interviewers={props.interviewers}
                onCancel={() => back()}
                onSave={save}
+            />
+         )}
+         {mode === SAVING && (
+            <Status
+               message="Saving"
             />
          )}
       </article>

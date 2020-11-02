@@ -38,26 +38,28 @@ export default function Application(props) {
   // GET DATA FOR COMPONENTS
   const dailyAppointments =  getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
-  console.log('interviewers:', interviewers);
 
-  // CHANGE LOCAL STATE WHEN BOOKING INTERVIEW
-  function bookInterview(id, interview) {
-    console.log('bookInterview', id, interview)
+  // CHANGE LOCAL AND SERVER DATA WHEN BOOKING INTERVIEW
+  function bookInterview(id, interview, transition) {
     // CREATE NEW APPOINTMENT WITH UPDATED INTERVIEW DATA
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
     };
+    console.log('appointment:', appointment)
     // UPDATE APPOINTMENTS WITH NEW APPOINTMENT DATA
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
-    // UPDATE STATE
-    setState({
-      ...state,
-      appointments
-    });
+    // UPDATE SERVER DATA
+    axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
+    .then(() => {
+      // UPDATE STATE AND TRANSITION TO SHOW
+      setState({ ...state, appointments });
+      transition("SHOW");
+    })
+    .catch(err => console.log(err));
   }
 
   return (
@@ -87,6 +89,7 @@ export default function Application(props) {
 
       <section className="schedule">
         {dailyAppointments.map(appointment => {
+          console.log('appointment map:', appointment)
           const interview = getInterview(state, appointment.interview)
           return (
           <Appointment
