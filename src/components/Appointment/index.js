@@ -20,12 +20,13 @@ export default function Appointment(props) {
 
    // CAPTURE NAME AND INTERVIEWER WHEN SAVING A NEW BOOKING
    function save(name, interviewer) {
-      console.log('save', name, interviewer)
       const interview = {
         student: name,
         interviewer
       };
       props.bookInterview(props.id, interview);
+      // TRANSITION TO SHOW MODE
+      transition(SHOW);
    }
 
    return (
