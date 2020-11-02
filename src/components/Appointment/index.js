@@ -13,6 +13,7 @@ const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
+const DELETING = "DELETING";
 
 export default function Appointment(props) {
    // DECLARE MODE HANDLER AND SET INITIAL MODE
@@ -27,9 +28,13 @@ export default function Appointment(props) {
         interviewer
       };
       transition(SAVING);
-      props.bookInterview(props.id, interview, transition)
-      // .then(() => transition(SHOW))
-         // TRANSITION TO SHOW MODE
+      props.bookInterview(props.id, interview, transition);
+   }
+
+   // DELETE AN INTERVIEW
+   function deleteInterview() {
+      transition(DELETING);
+      props.cancelInterview(props.id, transition);
    }
 
    return (
@@ -46,6 +51,7 @@ export default function Appointment(props) {
             <Show
                student={props.interview.student}
                interviewer={props.interview.interviewer}
+               deleteInterview={deleteInterview}
             />
          )}
          {mode === CREATE && (
@@ -58,6 +64,11 @@ export default function Appointment(props) {
          {mode === SAVING && (
             <Status
                message="Saving"
+            />
+         )}
+         {mode === DELETING && (
+            <Status
+               message="Deleting"
             />
          )}
       </article>

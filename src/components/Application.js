@@ -39,9 +39,9 @@ export default function Application(props) {
   const dailyAppointments =  getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
 
-  // CHANGE LOCAL AND SERVER DATA WHEN BOOKING INTERVIEW
+  // BOOK AN INTERVIEW GIVEN APPOINTMENT AND INTERVIEW DATA
   function bookInterview(id, interview, transition) {
-    // CREATE NEW APPOINTMENT WITH UPDATED INTERVIEW DATA
+    // UPDATE APPOINTMENT WITH INTERVIEW DATA
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -52,14 +52,32 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment
     };
-    // UPDATE SERVER DATA
+    // UDPATE SERVER AND LOCAL DATA THEN TRANSITION
     axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
+      .then(() => {
+        setState({ ...state, appointments });
+        transition("SHOW");
+      }).catch(err => console.log(err));
+  }
+
+  // CANCEL AN INTERVIEW GIVEN APPOINTMENT
+  function cancelInterview(id, transition) {
+    // UPDATE APPOINTMENT WITH NO INTERVIEW
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    // UPDATE APPOINTMENTS WITH NEW APPOINTMENT DATA
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    // UDPATE SERVER AND LOCAL DATA THEN TRANSITION
+    axios.delete(`http://localhost:8001/api/appointments/${id}`, { interview: null })
     .then(() => {
-      // UPDATE STATE AND TRANSITION TO SHOW
       setState({ ...state, appointments });
-      transition("SHOW");
-    })
-    .catch(err => console.log(err));
+      transition("EMPTY");
+    }).catch(err => console.log(err));
   }
 
   return (
@@ -89,7 +107,7 @@ export default function Application(props) {
 
       <section className="schedule">
         {dailyAppointments.map(appointment => {
-          console.log('appointment map:', appointment)
+          // console.log('appointment map:', appointment)
           const interview = getInterview(state, appointment.interview)
           return (
           <Appointment
@@ -99,6 +117,7 @@ export default function Application(props) {
             interview={interview}
             interviewers={interviewers}
             bookInterview={bookInterview}
+            cancelInterview={cancelInterview}
           />)
         })}
         <Appointment key="last" time="5pm" />
