@@ -39,9 +39,29 @@ export default function Application(props) {
     }).catch(err => console.log(err))
   }, []);
 
+  // CHANGE LOCAL STATE WHEN BOOKING INTERVIEW
+  function bookInterview(id, interview) {
+    console.log('bookInterview', id, interview)
+    // CREATE NEW APPOINTMENT WITH UPDATED INTERVIEW DATA
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    // UPDATE APPOINTMENTS WITH NEW APPOINTMENT DATA
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    // UPDATE STATE
+    setState({
+      ...state,
+      appointments
+    });
+  }
+
   return (
     <main className="layout">
-    {/* {console.log('state:', state)} */}
+    {console.log('state:', state)}
     {/* {console.log('daily appointments:', dailyAppointments)} */}
       <section className="sidebar">
         <img
@@ -74,6 +94,7 @@ export default function Application(props) {
             time={appointment.time}
             interview={interview}
             interviewer={getInterviewersForDay(state, state.day.name)}
+            bookInterview={bookInterview}
           />)
         })}
         <Appointment key="last" time="5pm" />
