@@ -21,14 +21,10 @@ export default function Application(props) {
     interviewers: {}
   });
   
-  // const dailyAppointments = [];
-  const dailyAppointments =  getAppointmentsForDay(state, state.day);
-  
-
   // SET STATE
   const setDay = day => setState(prev => ({ ...prev, day }));
 
-  // GET DATA ON LOAD
+  // GET SERVER DATA ON LOAD
   useEffect(() => {
     Promise.all([
       axios.get("http://localhost:8001/api/days"),
@@ -38,6 +34,11 @@ export default function Application(props) {
         setState(prev => ({...prev, days: data[0].data, appointments: data[1].data, interviewers: data[2].data}));
     }).catch(err => console.log(err))
   }, []);
+
+  // GET DATA FOR COMPONENTS
+  const dailyAppointments =  getAppointmentsForDay(state, state.day);
+  const interviewers = getInterviewersForDay(state, state.day);
+  console.log('interviewers:', interviewers);
 
   // CHANGE LOCAL STATE WHEN BOOKING INTERVIEW
   function bookInterview(id, interview) {
@@ -93,7 +94,7 @@ export default function Application(props) {
             id={appointment.id}
             time={appointment.time}
             interview={interview}
-            interviewer={getInterviewersForDay(state, state.day.name)}
+            interviewers={interviewers}
             bookInterview={bookInterview}
           />)
         })}
