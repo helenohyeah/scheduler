@@ -1,3 +1,4 @@
+// Returns a list of appointments for the given day
 const getAppointmentsForDay = (state, day) => {
   // Make a copy of state data
   const days = [...state.days];
@@ -6,8 +7,8 @@ const getAppointmentsForDay = (state, day) => {
   let results = [];
 
   // Get appointments for given day
-  const filteredDay = days.filter(item => item.name === day);
   // If the day has no appointments, set appointmentIds to an empty array
+  const filteredDay = days.filter(item => item.name === day);
   const appointmentIds = (filteredDay.length !== 0) ? filteredDay[0].appointments : [];
 
   // Loop through appointments, if its in the given day, add it to results
@@ -17,6 +18,28 @@ const getAppointmentsForDay = (state, day) => {
     }
   }
 
+  return results;
+}
+
+// Returns a list of interviewers for the given day
+const getInterviewersForDay = (state, day) => {
+  // Make a copy of state data
+  const days = [...state.days];
+  const interviewers = {...state.interviewers};
+
+  let results = [];
+
+  // Get interviewers for given day
+  // If the day has no interviewers, set appointmentIds to an empty array
+  const filteredDay = days.filter(item => item.name === day);
+  const interviewerIds = (filteredDay.length !== 0) ? filteredDay[0].interviewers : [];
+
+  // Loop through interviewers, if its in the given day, add it to results
+  for (const interviewer in interviewers) {
+    if (interviewerIds.includes(interviewers[interviewer].id)) {
+      results.push(interviewers[interviewer]);
+    }
+  }
   return results;
 }
 
@@ -39,4 +62,4 @@ const getInterview = (state, interview) => {
   return null;
 }
 
-export { getAppointmentsForDay, getInterview };
+export { getAppointmentsForDay, getInterviewersForDay, getInterview };
