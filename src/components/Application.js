@@ -57,7 +57,7 @@ export default function Application(props) {
       .then(() => {
         setState({ ...state, appointments });
         transition("SHOW");
-      }).catch(err => console.log(err));
+      }).catch(() => transition("ERROR_SAVE"));
   }
 
   // CANCEL AN INTERVIEW GIVEN APPOINTMENT
@@ -77,7 +77,7 @@ export default function Application(props) {
     .then(() => {
       setState({ ...state, appointments });
       transition("EMPTY");
-    }).catch(err => console.log(err));
+    }).catch(() => transition("ERROR_DELETE"));
   }
 
   return (
