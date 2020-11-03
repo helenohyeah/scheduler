@@ -27,7 +27,8 @@ export default function Form(props) {
       return;
     }
 
-    // 5 IF NOT BLANKSAVE APPOINTMENT
+    // IF NOT BLANK SAVE APPOINTMENT
+    setError("");
     props.onSave(name, interviewer);
   }
 
