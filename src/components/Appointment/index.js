@@ -13,6 +13,7 @@ import "./styles.scss";
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
+const EDIT = "EDIT";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
@@ -45,18 +46,28 @@ export default function Appointment(props) {
          {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
          {mode === SHOW && (
             <Show
-            student={props.interview.student}
+               student={props.interview.student}
                interviewer={props.interview.interviewer}
                onDelete={() => transition(CONFIRM)}
+               onEdit={() => transition(EDIT)}
             />
-            )}
+         )}
          {mode === CREATE && (
             <Form
-            interviewers={props.interviewers}
-            onCancel={back}
+               interviewers={props.interviewers}
+               onCancel={back}
                onSave={save}
-               />
-               )}
+            />
+         )}
+         {mode === EDIT && (
+            <Form
+               interviewers={props.interviewers}
+               name={props.interview.student}
+               value={props.interview.interviewer.id}
+               onCancel={back}
+               onSave={save}
+            />
+         )}
          {mode === SAVING && <Status message="Saving" />}
          {mode === DELETING && <Status message="Deleting" />}
          {mode === CONFIRM && (
