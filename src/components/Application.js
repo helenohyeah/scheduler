@@ -15,6 +15,7 @@ import Appointment from "./Appointment";
 import "components/Application.scss";
 
 export default function Application(props) {
+  // DATA MANAGEMENT HOOKS
   const {
     state,
     setDay,
@@ -23,13 +24,25 @@ export default function Application(props) {
   } = useApplicationData();
 
   // GET DATA FOR COMPONENTS
-  const dailyAppointments =  getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
+  const appointments =  getAppointmentsForDay(state, state.day)
+    .map(appointment => {
+      return (
+        <Appointment
+          key={appointment.id}
+          id={appointment.id}
+          time={appointment.time}
+          interview={getInterview(state, appointment.interview)}
+          interviewers={interviewers}
+          bookInterview={bookInterview}
+          cancelInterview={cancelInterview}
+        />
+      );
+    }
+  );
 
   return (
     <main className="layout">
-    {console.log('state:', state)}
-    {/* {console.log('daily appointments:', dailyAppointments)} */}
       <section className="sidebar">
         <img
           className="sidebar--centered"
@@ -52,20 +65,7 @@ export default function Application(props) {
       </section>
 
       <section className="schedule">
-        {dailyAppointments.map(appointment => {
-          // console.log('appointment map:', appointment)
-          const interview = getInterview(state, appointment.interview)
-          return (
-          <Appointment
-            key={appointment.id}
-            id={appointment.id}
-            time={appointment.time}
-            interview={interview}
-            interviewers={interviewers}
-            bookInterview={bookInterview}
-            cancelInterview={cancelInterview}
-          />)
-        })}
+        {appointments}
         <Appointment key="last" time="5pm" />
       </section>
     </main>

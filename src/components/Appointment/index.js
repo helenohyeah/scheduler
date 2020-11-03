@@ -1,6 +1,10 @@
+// PACKAGES
 import React from "react";
+
+// CUSTOM HOOKS
 import useVisualMode from "../../hooks/useVisualMode";
 
+// COMPONENTS
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
@@ -9,8 +13,10 @@ import Status from "./Status";
 import Confirm from "./Confirm";
 import Error from "./Error";
 
+// STYLING
 import "./styles.scss";
 
+// MODE VARIABLES
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
