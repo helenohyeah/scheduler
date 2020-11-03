@@ -1,4 +1,4 @@
-// PACKAGES
+// LIBRARIES
 import React from "react";
 
 // HELPERS
