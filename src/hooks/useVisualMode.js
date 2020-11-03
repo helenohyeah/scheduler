@@ -13,10 +13,10 @@ export default function useVisualMode(initial) {
   }
   
   const back = () => {
-    // Navigate back only if we navgated from initial
+    // Navigate back only if we navigated from initial
     if (history.length > 1) {
       history.pop();
-      setHistory(history);
+      setHistory([...history]);
       setMode(history[history.length-1]);
     }
   }

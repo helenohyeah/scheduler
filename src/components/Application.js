@@ -40,7 +40,7 @@ export default function Application(props) {
   const interviewers = getInterviewersForDay(state, state.day);
 
   // BOOK AN INTERVIEW GIVEN APPOINTMENT AND INTERVIEW DATA
-  function bookInterview(id, interview, transition) {
+  function bookInterview(id, interview) {
     // UPDATE APPOINTMENT WITH INTERVIEW DATA
     const appointment = {
       ...state.appointments[id],
@@ -52,16 +52,13 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment
     };
-    // UDPATE SERVER AND LOCAL DATA THEN TRANSITION
-    axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
-      .then(() => {
-        setState({ ...state, appointments });
-        transition("SHOW");
-      }).catch(() => transition("ERROR_SAVE"));
+    // UPDATE SERVER AND LOCAL DATA
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
+      .then(() => setState({ ...state, appointments }));
   }
 
   // CANCEL AN INTERVIEW GIVEN APPOINTMENT
-  function cancelInterview(id, transition) {
+  function cancelInterview(id) {
     // UPDATE APPOINTMENT WITH NO INTERVIEW
     const appointment = {
       ...state.appointments[id],
@@ -72,12 +69,9 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment
     };
-    // UDPATE SERVER AND LOCAL DATA THEN TRANSITION
-    axios.delete(`http://localhost:8001/api/appointments/${id}`, { interview: null })
-    .then(() => {
-      setState({ ...state, appointments });
-      transition("EMPTY");
-    }).catch(() => transition("ERROR_DELETE"));
+    // UPDATE SERVER AND LOCAL DATA THEN TRANSITION
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`, { interview: null })
+      .then(() => setState({ ...state, appointments }));
   }
 
   return (

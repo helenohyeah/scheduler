@@ -33,14 +33,23 @@ export default function Appointment(props) {
         student: name,
         interviewer
       };
+
       transition(SAVING);
-      props.bookInterview(props.id, interview, transition);
+
+      props
+         .bookInterview(props.id, interview)
+         .then(() => transition(SHOW))
+         .catch(() => transition(ERROR_SAVE, true));
    }
 
    // DELETE AN INTERVIEW
    function deleteInterview() {
       transition(DELETING);
-      props.cancelInterview(props.id, transition);
+
+      props
+         .cancelInterview(props.id)
+         .then(() => transition("EMPTY"))
+         .catch(() => transition(ERROR_DELETE, true));
    }
 
    return (
