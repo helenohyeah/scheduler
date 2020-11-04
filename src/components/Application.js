@@ -66,7 +66,7 @@ export default function Application(props) {
 
       <section className="schedule">
         {appointments}
-        {console.log('state:', state)}
+        {/* {console.log('state:', state)} */}
         <Appointment key="last" time="5pm" />
       </section>
     </main>
