@@ -33,17 +33,20 @@ export default function Appointment(props) {
       props.interview ? SHOW : EMPTY
    );
 
-   // SAVE NEW INTERVIEW BOOKING GIVEN NAME AND INTERVIEWER
+   // SAVE INTERVIEW BOOKING GIVEN NAME AND INTERVIEWER
    function save(name, interviewer) {
       const interview = {
         student: name,
         interviewer
       };
 
+      // CHECK IF NEW OR EXISTING BOOKING
+      const isNew = (mode === CREATE) ? true : false;
+      
       transition(SAVING);
 
       props
-         .bookInterview(props.id, interview)
+         .bookInterview(props.id, interview, isNew)
          .then(() => transition(SHOW))
          .catch(() => transition(ERROR_SAVE, true));
    }

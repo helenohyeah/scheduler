@@ -38,7 +38,7 @@ export default function useApplicationData() {
   }
 
   // BOOK AN INTERVIEW GIVEN APPOINTMENT AND INTERVIEW DATA
-  function bookInterview(id, interview) {
+  function bookInterview(id, interview, isNew) {
     // UPDATE DATA
     const appointment = {
       ...state.appointments[id],
@@ -48,7 +48,7 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
-    const days = updateSpots(id, true);
+    const days = (isNew) ? updateSpots(id, true) : state.days;
 
     // UPDATE SERVER AND LOCAL WITH NEW DATA
     return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
