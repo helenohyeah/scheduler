@@ -2,7 +2,7 @@
 import React from "react";
 
 // CUSTOM HOOKS
-import useVisualMode from "../../hooks/useVisualMode";
+import useVisualMode from "hooks/useVisualMode";
 
 // COMPONENTS
 import Header from "./Header";
@@ -41,12 +41,12 @@ export default function Appointment(props) {
       };
 
       // CHECK IF NEW OR EXISTING BOOKING
-      const isNew = (mode === CREATE) ? true : false;
+      const isEdit = (mode === EDIT) ? true : false;
       
-      transition(SAVING);
+      transition(SAVING, true);
 
       props
-         .bookInterview(props.id, interview, isNew)
+         .bookInterview(props.id, interview, isEdit)
          .then(() => transition(SHOW))
          .catch(() => transition(ERROR_SAVE, true));
    }
