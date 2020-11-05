@@ -2,14 +2,14 @@
 import React from "react";
 
 // HELPERS
-import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "../helpers/selectors";
+import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "helpers/selectors";
 
 // CUSTOM HOOKS
-import useApplicationData from "../hooks/useApplicationData";
+import useApplicationData from "hooks/useApplicationData";
 
 // COMPONENTS
-import DayList from "./DayList";
-import Appointment from "./Appointment";
+import DayList from "components/DayList";
+import Appointment from "components/Appointment";
 
 // STYLING
 import "components/Application.scss";
