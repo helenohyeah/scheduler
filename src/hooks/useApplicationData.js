@@ -78,8 +78,7 @@ export default function useApplicationData() {
     return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview })
       .then(() => {
         dispatch({ type: SET_INTERVIEW, id, interview, isBooking: true, isEdit })
-      })
-      .catch(err => console.log("Error with bookInterview: ", err));
+      });
   }
 
   // CANCEL AN INTERVIEW GIVEN APPOINTMENT
@@ -87,8 +86,7 @@ export default function useApplicationData() {
     return axios.delete(`http://localhost:8001/api/appointments/${id}`, { interview: null })
       .then(() => {
         dispatch({ type: SET_INTERVIEW, id, interview: null, isBooking: false });
-      })
-      .catch(err => console.log("Error with cancelInterview: ", err));
+      });
   }
 
   return {
