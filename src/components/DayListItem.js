@@ -9,15 +9,15 @@ export default function DayListItem(props) {
     "day-list__item--full": props.spots === 0
   })
 
-  const formatSpots = (num) => {
-    switch(num) {
-      case 0:
-        return 'no spots remaining';
-      case 1:
-        return '1 spot remaining';
-      default:
-        return num + ' spots remaining';
+  // RETURNS FORMATTED SENTENCE GIVEN NUM OF SPOTS
+  const formatSpots = spots => {
+    const formats = {
+      0: "no spots remaining",
+      1: "1 spot remaining",
+      default: `${spots} spots remaining`
     }
+
+    return formats[spots] || formats.default;
   };
 
   return (
