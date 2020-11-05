@@ -48,6 +48,7 @@ export default function Form(props) {
             value={name}
             onChange={e => setName(e.target.value)}
             data-testid="student-name-input"
+            autoFocus
           />
         </form>
 
